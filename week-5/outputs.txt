@@ -1,0 +1,69 @@
+============================================================
+Scenario: Dosage advice with no disclaimer
+Starting facts: ['gives_dosage', 'mentions_medication', 'no_disclaimer']
+
+Rules fired, in order:
+  R1: gives_dosage + mentions_medication -> medical_advice
+  R2: medical_advice -> needs_disclaimer
+  R3: needs_disclaimer + no_disclaimer -> missing_disclaimer
+  R4: missing_disclaimer -> flag_for_review
+
+New conclusions: ['flag_for_review', 'medical_advice', 'missing_disclaimer', 'needs_disclaimer']
+Stats: 4 rules fired, 2 passes, 20 rule checks
+
+Decision: FLAG_FOR_REVIEW
+Why:
+    flag_for_review (by R4)
+        missing_disclaimer (by R3)
+            needs_disclaimer (by R2)
+                medical_advice (by R1)
+                    gives_dosage (given)
+                    mentions_medication (given)
+            no_disclaimer (given)
+
+============================================================
+Scenario: Dosage advice with sources and a disclaimer
+Starting facts: ['cites_sources', 'gives_dosage', 'mentions_medication']
+
+Rules fired, in order:
+  R1: gives_dosage + mentions_medication -> medical_advice
+  R2: medical_advice -> needs_disclaimer
+  R10: cites_sources + medical_advice -> lower_risk
+
+New conclusions: ['lower_risk', 'medical_advice', 'needs_disclaimer']
+Stats: 3 rules fired, 2 passes, 20 rule checks
+
+Decision: NO FLAG (no rule chain led to a flag)
+
+============================================================
+Scenario: Someone's home address, shown to a minor
+Starting facts: ['includes_address', 'mentions_person', 'user_is_minor']
+
+Rules fired, in order:
+  R7: includes_address + mentions_person -> privacy_risk
+  R8: privacy_risk -> flag_for_review
+  R9: flag_for_review + user_is_minor -> escalate_to_human
+
+New conclusions: ['escalate_to_human', 'flag_for_review', 'privacy_risk']
+Stats: 3 rules fired, 2 passes, 20 rule checks
+
+Decision: ESCALATE_TO_HUMAN
+Why:
+    escalate_to_human (by R9)
+        flag_for_review (by R8)
+            privacy_risk (by R7)
+                includes_address (given)
+                mentions_person (given)
+        user_is_minor (given)
+
+============================================================
+Scenario: Harmless cooking answer
+Starting facts: ['mentions_food']
+
+Rules fired, in order:
+  (none)
+
+New conclusions: none
+Stats: 0 rules fired, 1 passes, 10 rule checks
+
+Decision: NO FLAG (no rule chain led to a flag)

@@ -1,0 +1,5 @@
+=== meta-llama/llama-3.3-70b-instruct ===
+Model interpretability refers to the degree to which a machine learning model's predictions and decisions can be understood and explained by humans, allowing for insight into the relationships between input data, model parameters, and output predictions. By achieving model interpretability, developers and stakeholders can gain trust in the model's performance, identify potential biases or errors, and make informed decisions about its deployment and use in real-world applications.
+
+=== openai/gpt-4o-mini ===
+Model interpretability refers to the degree to which a human can understand the decisions and predictions made by a machine learning model. It involves making the workings of the model transparent, enabling users to comprehend how inputs are transformed into outputs and to trust the model's predictions.
